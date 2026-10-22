@@ -1,116 +1,148 @@
+<div align="center">
+
 # TextExtractor Desktop
 
-**A Windows desktop application for extracting text from screenshots and images using optical character recognition (OCR).**
+### Extract text from images. Privately, quickly, and offline.
 
-TextExtractor Desktop provides a convenient graphical interface for converting image-based text into editable content. It supports Tesseract OCR and RapidOCR, offering a practical solution for extracting text from screenshots, scanned documents, and other supported image files.
+A modern Windows OCR workspace for screenshots, scanned documents, and photos, powered by **Tesseract OCR** and **RapidOCR**.
 
-The application is designed for local, offline OCR processing, without requiring users to install Python or configure OCR engines separately when using the packaged Windows installer.
+![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white) ![Version](https://img.shields.io/badge/version-1.0.0-6955E8) ![Platform](https://img.shields.io/badge/platform-Windows-0078D4?logo=windows) ![Offline](https://img.shields.io/badge/OCR-offline-238636)
+
+**[Features](#features) · [Screenshots](#screenshots) · [Installation](#installation) · [Development](#development) · [Privacy](#privacy)**
+
+</div>
+
+---
+
+## Overview
+
+TextExtractor Desktop turns text embedded in images into editable, searchable, and reusable content. Import an image, select a region when needed, run OCR, and copy or save the result—all within a desktop interface. Recognition runs locally, without uploading your images to a cloud OCR service.
 
 ## Features
 
-- **Image-to-text extraction:** Extract text from screenshots and image files.
-- **Tesseract OCR:** Use the established open-source Tesseract recognition engine.
-- **RapidOCR:** An alternative OCR engine powered by ONNX Runtime.
-- **Desktop interface:** Built with Python and Qt (PySide6).
-- **Image processing:** Uses Pillow for image handling.
-- **Offline operation:** Perform local OCR without a cloud OCR service.
-- **Standalone Windows distribution:** Package Python and OCR dependencies with the application.
+- **Multiple input methods:** open an image, drag and drop, capture a screenshot, or paste from the clipboard.
+- **Region selection:** select the area of an image you want to recognize, with selection reset and undo/redo controls in the workspace.
+- **Two OCR engines:** Tesseract and RapidOCR, with engine configuration available in Settings.
+- **Editable results:** review and edit extracted text, copy all or a selection, search within the result, and save or share text.
+- **History and favorites:** find earlier extractions, favorite useful results, and manage saved items.
+- **Retention controls:** keep history until deletion or select automatic deletion periods.
+- **Appearance settings:** follow the system theme or choose light or dark mode.
+- **Privacy-first design:** local processing, no account requirement, and a privacy page explaining local storage and diagnostic behavior.
 
-## Application Screenshots
+## Screenshots
 
-Screenshots are stored in [`docs/screenshots/`](docs/screenshots/).
+### Home — import an image or capture a screenshot
 
-### Main Application Interface
+![TextExtractor Desktop home screen, dark theme](docs/screenshots/dark_1_home.png)
 
-![TextExtractor Desktop main interface](docs/screenshots/main-window.png)
+### Select the area to recognize
 
-### Text Extraction
+![Image workspace and region selection](docs/screenshots/dark_2_workspace_crop.png)
 
-![Text extraction interface](docs/screenshots/text-extraction.png)
+### Review, search, copy, and save extracted text
 
-### OCR Engine Selection
+![OCR results and text tools](docs/screenshots/dark_3_result.png)
 
-![OCR engine configuration](docs/screenshots/ocr-settings.png)
+### History and favorites
 
-> Replace these example filenames with the actual screenshots in your project. Remove any section that does not correspond to an implemented feature.
+![Saved extraction history](docs/screenshots/dark_4_history.png)
 
-## Download and Installation
+### OCR, language, appearance, and history settings
 
-For regular Windows users, the recommended installation method is the prebuilt application.
+![Application settings](docs/screenshots/dark_5_settings.png)
 
-1. Visit the [GitHub Releases](../../releases) page.
-2. Download the latest Windows installer.
-3. Run the installer and follow the installation instructions.
-4. Launch TextExtractor Desktop from the Start menu or desktop shortcut.
-5. Open an image and use the available OCR controls to extract its text.
+### Privacy information
 
-The packaged installer is intended to include the required Python runtime, OCR engine binaries, and language data.
+![Privacy screen](docs/screenshots/dark_6_privacy.png)
 
-## Installation from Source
+<details>
+<summary><strong>View the light theme</strong></summary>
 
-### Prerequisites
+| Home | Workspace |
+| --- | --- |
+| ![Light theme home](docs/screenshots/light_1_home.png) | ![Light theme selection workspace](docs/screenshots/light_2_workspace_crop.png) |
 
-- Windows operating system
-- Python 3.10 or later, subject to the project's configured Python requirements
-- Git
-- Tesseract OCR for development, if using the Tesseract engine
+| Results | History |
+| --- | --- |
+| ![Light theme results](docs/screenshots/light_3_result.png) | ![Light theme history](docs/screenshots/light_4_history.png) |
 
-### Clone the Repository
+| Settings | Privacy |
+| --- | --- |
+| ![Light theme settings](docs/screenshots/light_5_settings.png) | ![Light theme privacy](docs/screenshots/light_6_privacy.png) |
 
-```bash
-git clone https://github.com/YOUR_USERNAME/TextExtractorDesktop.git
-cd TextExtractorDesktop
-```
+</details>
 
-### Create a Virtual Environment
+## Installation
+
+### Windows installer (recommended)
+
+1. Open the [Releases](../../releases) page.
+2. Download the Windows installer attached to the latest published release, when available.
+3. Run the installer and launch **TextExtractor Desktop**.
+4. Open an image, select the desired region, and click **Extract text**.
+
+A correctly packaged release includes the Python runtime and the OCR components needed for its supported engines. A source checkout does **not** automatically include Tesseract binaries.
+
+### From source
+
+**Requirements:** Windows, Python 3.10+, and Git. Tesseract OCR must be installed or made available separately if you intend to use that engine in development.
 
 ```powershell
+git clone https://github.com/YOUR_USERNAME/TextExtractorDesktop.git
+cd TextExtractorDesktop
 py -m venv .venv
 .\.venv\Scripts\Activate.ps1
-```
-
-### Install Dependencies
-
-```bash
 python -m pip install --upgrade pip
-pip install -r requirements.txt
+python -m pip install -e ".[rapidocr]"
+textextractor-gui
 ```
 
-### Configure Tesseract OCR
+To use Tesseract during development, install a compatible [Windows build of Tesseract](https://github.com/UB-Mannheim/tesseract/wiki). If the application does not find it automatically, set `TEXTEXTRACTOR_TESSERACT` to the absolute path of `tesseract.exe` and restart the application.
 
-Install the Windows Tesseract distribution from [UB Mannheim](https://github.com/UB-Mannheim/tesseract/wiki).
+> The optional RapidOCR dependency is declared in `pyproject.toml`. Some OCR model files may require separate packaging for fully offline distribution; verify the release on a clean Windows installation.
 
-If necessary, set the `TEXTEXTRACTOR_TESSERACT` environment variable to the full path of `tesseract.exe`.
+## How to use
 
-### Run the Application
+1. **Import:** choose **Open image**, **Capture screen**, or **Paste from clipboard** (or drag an image onto the home screen).
+2. **Select:** optionally drag across the image to focus recognition on a particular region.
+3. **Extract:** click **Extract text** to run the configured OCR engine.
+4. **Review:** edit, search, copy, save, or share the recognized text.
+5. **Return later:** use **History** to find saved results or manage favorites.
 
-Use the application entry point defined in `pyproject.toml` or the project's source documentation.
+## Development
 
-## Technology Stack
+The application is packaged as a Python project using a `src/` layout. The declared console and GUI entry points both resolve to `textextractor.app:main`.
 
 | Component | Technology |
-|---|---|
-| Programming language | Python |
-| Desktop GUI | PySide6 / Qt |
-| Primary OCR engine | Tesseract OCR |
-| Alternative OCR engine | RapidOCR |
-| Inference runtime | ONNX Runtime |
-| Image processing | Pillow |
-| Windows packaging | PyInstaller |
-| Windows installer | Inno Setup, if configured |
+| --- | --- |
+| Language | Python 3.10+ |
+| Desktop UI | PySide6 / Qt |
+| OCR engines | Tesseract OCR; optional RapidOCR |
+| OCR inference | ONNX Runtime (RapidOCR) |
+| Image handling | Pillow |
+| Build tooling | PyInstaller (development dependency) |
 
-## Project Structure
+Install the development dependencies and run tests:
+
+```powershell
+python -m pip install -e ".[rapidocr,dev]"
+python -m pytest
+```
+
+For packaging, use the maintained scripts and configuration in `scripts/`, `packaging/`, and `installer/` as appropriate. A Windows release must include the native Tesseract executable, required DLLs, `tessdata` language files, and any required RapidOCR model assets. Test it on a machine without Python or Tesseract installed.
+
+### Repository layout
 
 ```text
 TextExtractorDesktop/
-├── .github/
+├── .github/                 # GitHub configuration
 ├── docs/
-│   └── screenshots/
-├── installer/
-├── packaging/
-├── scripts/
-├── src/
-├── tests/
+│   └── screenshots/         # Light and dark application screenshots
+├── installer/               # Installer configuration
+├── packaging/               # Application packaging files
+├── scripts/                 # Development/build scripts
+├── src/                     # Application source
+├── tests/                   # Automated tests
 ├── .gitignore
 ├── LICENSE.txt
 ├── pyproject.toml
@@ -119,51 +151,16 @@ TextExtractorDesktop/
 └── THIRD_PARTY_NOTICES.md
 ```
 
-Generated build directories, local Python environments, and bundled third-party binaries are excluded from Git version control.
+Generated `build/`, `dist/`, `vendor/`, and `.venv/` directories are intended to remain outside source control. Publish installers as GitHub Release assets rather than committing them to the repository.
 
-## Building the Windows Application
+## Privacy
 
-The project includes directories for packaging and installer configuration.
+Text recognition is performed on-device. The application's privacy screen states that images and recognized text are not uploaded to a remote OCR service; saved text is stored locally and may be removed through history controls. Screen capture is initiated by the user. Review the in-app **Privacy** page for details about local data handling and diagnostic logs.
 
-For development builds, install the required packaging tools:
+## Contributing and support
 
-```bash
-pip install pyinstaller
-```
+Bug reports, reproducible issues, and feature suggestions are welcome through [GitHub Issues](../../issues). For contributions, create a branch, make and test your changes, and submit a pull request describing the change.
 
-Use the project's maintained build scripts or packaging configuration to create the executable.
+## License and acknowledgements
 
-When preparing a standalone distribution, ensure that the Tesseract executable, supporting DLLs, language data, and required RapidOCR models are included.
-
-Do not assume that installing Python dependencies automatically installs the native Tesseract engine.
-
-## Testing
-
-Run the automated tests, where applicable:
-
-```bash
-python -m pytest
-```
-
-Install `pytest` in the development environment if it is not already available.
-
-Before publishing a Windows release, test the packaged application on a clean machine without Python or Tesseract installed.
-
-## Contributing
-
-Contributions, bug reports, and suggestions are welcome.
-
-1. Fork the repository.
-2. Create a feature branch.
-3. Make and test your changes.
-4. Submit a pull request explaining your changes.
-
-## License
-
-See [LICENSE.txt](LICENSE.txt) for the project's license terms.
-
-Third-party software and dependency notices are available in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
-
-## Support
-
-Use the repository's GitHub Issues page to report reproducible bugs, request enhancements, or suggest improvements.
+See [LICENSE.txt](LICENSE.txt) for the application's license and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for third-party notices. Tesseract, RapidOCR, Qt/PySide6, Pillow, and ONNX Runtime are separate projects with their own applicable licenses.
