@@ -174,7 +174,7 @@ class TesseractEngine(OcrEngine):
         langs = [l for l in languages if l in installed] or ["eng"]
         buf = io.BytesIO()
         self._prepare(image).save(buf, "PNG")
-        cmd = [self._exe, "stdin", "stdout", "-l", "+".join(langs), "--psm", "3", "tsv"]
+        cmd = [self._exe, "stdin", "stdout", "-l", "+".join(langs), "--psm", "3", "-c", "tessedit_create_tsv=1"]
         started = time.perf_counter()
         try:
             proc = subprocess.run(cmd, input=buf.getvalue(), capture_output=True, timeout=self._timeout,
