@@ -1,0 +1,59 @@
+
+# Python environments
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Generated builds and binaries
+build/
+dist/
+vendor/
+*.spec
+*.exe
+*.msi
+*.dll
+
+# Installer output
+installer/output/
+installer/Output/
+installer/releases/
+release/
+releases/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.log
+*.tmp
+*.bak
+*.sqlite3
+
+# IDE and operating system
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Keep project documentation and screenshots
+!docs/
+!docs/screenshots/
+!docs/screenshots/**
+
+# Keep source and packaging configuration
+!src/
+!scripts/
+!packaging/
+!installer/

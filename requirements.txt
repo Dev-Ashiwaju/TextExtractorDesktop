@@ -1,0 +1,4 @@
+PySide6-Essentials>=6.6
+Pillow>=10.0
+# Optional pip-only OCR fallback (larger install, weaker English spacing than Tesseract):
+rapidocr-onnxruntime>=1.3

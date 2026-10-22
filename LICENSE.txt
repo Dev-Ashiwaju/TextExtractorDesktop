@@ -1,0 +1,4 @@
+TEXT EXTRACTOR – END-USER LICENSE AGREEMENT (PLACEHOLDER)
+
+Replace this file with your own licence / EULA before distributing the application commercially.
+Third-party components are covered by their own licences; see THIRD_PARTY_NOTICES.md.
